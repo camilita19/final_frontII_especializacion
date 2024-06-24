@@ -1,19 +1,15 @@
-import { useState } from "react";
-import { shallowEqual } from "react-redux";
-import { Boton, Input, AutorCita, ContenedorCita, TextoCita } from "./styled";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import {
-  obtenerCitaDelEstado,
-  limpiar,
-  obtenerEstadoDelPedido,
-  obtenerCitaDeLaAPI,
-} from "./citaSlice";
-import { obtenerMensaje } from "./utils";
+import { SetStateAction, useState } from 'react';
+import { shallowEqual } from 'react-redux';
+import {  Input, Boton, AutorCita, ContenedorCita, TextoCita } from './styled';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { obtenerCitaDelEstado, limpiar, obtenerEstadoDelPedido, obtenerCitaDeLaAPI } from './redux/citaSlice';
+import { obtenerMensaje } from './utils/utils';
+
+
 
 function Cita() {
-  const [valorInput, setValorInput] = useState("");
-  const { cita = "", personaje = "" } =
-    useAppSelector(obtenerCitaDelEstado, shallowEqual) || {};
+  const [valorInput, setValorInput] = useState('');
+  const { cita = '', personaje = '' } = useAppSelector(obtenerCitaDelEstado, shallowEqual) || {};
   const estadoPedido = useAppSelector(obtenerEstadoDelPedido);
 
   const dispatch = useAppDispatch();
@@ -22,7 +18,7 @@ function Cita() {
 
   const onClickBorrar = () => {
     dispatch(limpiar());
-    setValorInput("");
+    setValorInput('');
   };
 
   return (
@@ -32,14 +28,11 @@ function Cita() {
       <Input
         aria-label="Author Cita"
         value={valorInput}
-        onChange={(e) => setValorInput(e.target.value)}
+        onChange={(e: { target: { value: SetStateAction<string>; }; }) => setValorInput(e.target.value)}
         placeholder="Ingresa el nombre del autor"
       />
-      <Boton
-        aria-label={valorInput ? "Obtener Cita" : "Obtener cita aleatoria"}
-        onClick={onClickObtenerCita}
-      >
-        {valorInput ? "Obtener Cita" : "Obtener cita aleatoria"}
+      <Boton aria-label={valorInput ? 'Obtener Cita' : 'Obtener cita aleatoria'} onClick={onClickObtenerCita}>
+        {valorInput ? 'Obtener Cita' : 'Obtener cita aleatoria'}
       </Boton>
       <Boton aria-label="Borrar" onClick={onClickBorrar} secondary={true}>
         Borrar

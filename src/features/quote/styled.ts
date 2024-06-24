@@ -60,6 +60,7 @@ export const Boton = styled.button<{ secondary?: boolean }>`
     cursor: pointer;
   }
 
+
   ${(props) =>
     props.secondary
       ? css`

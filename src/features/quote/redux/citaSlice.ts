@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AppDispatch, RootState } from "../../app/store";
-import { ESTADO_FETCH } from "./constants";
-import { obtenerCita } from "./citaAPI";
-import { ICita } from "./types";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { AppDispatch, RootState } from '../../../app/store';
+import { ESTADO_FETCH } from '../utils/constants';
+import { obtenerCita } from '../api/citaAPI';
+import { ICita } from '../types/types';
 
 export interface EstadoCita {
   data: ICita | null;
@@ -14,21 +14,23 @@ const initialState: EstadoCita = {
   estado: ESTADO_FETCH.INACTIVO,
 };
 
-export const obtenerCitaAsync = createAsyncThunk(
-  "cita/obtenerCita",
-  async (personaje: string) => {
-    try {
-      const cita = await obtenerCita(personaje);
+// export const obtenerCitaAsync = createAsyncThunk('cita/obtenerCita', async (personaje: string) => {
+//   try {
+//     const cita = await obtenerCita(personaje);
 
-      return cita;
-    } catch (err) {
-      throw err;
-    }
-  }
-);
+//     return cita;
+//   } catch (err) {
+//     throw err;
+//   }
+// });
+
+export const obtenerCitaAsync = createAsyncThunk('cita/obtenerCita', async (personaje: string) => {
+  const cita = await obtenerCita(personaje);
+  return cita;
+});
 
 export const citaSlice = createSlice({
-  name: "citas",
+  name: 'citas',
   initialState,
   reducers: {
     limpiar: () => initialState,
@@ -51,11 +53,10 @@ export const citaSlice = createSlice({
 
 export const { limpiar } = citaSlice.actions;
 
-export const obtenerCitaDeLaAPI =
-  (personaje: string) => (dispatch: AppDispatch) => {
-    dispatch(limpiar());
-    dispatch(obtenerCitaAsync(personaje));
-  };
+export const obtenerCitaDeLaAPI = (personaje: string) => (dispatch: AppDispatch) => {
+  dispatch(limpiar());
+  dispatch(obtenerCitaAsync(personaje));
+};
 
 export const obtenerCitaDelEstado = (state: RootState) => state.cita.data;
 export const obtenerEstadoDelPedido = (state: RootState) => state.cita.estado;
